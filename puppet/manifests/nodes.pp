@@ -2,6 +2,7 @@ node "host1.example.org" {
   include hanode
 
   file { "/etc/mysql/conf.d/server-id.cnf":
+    require => Package["mysql-server"],
     content => "[mysqld]\nserver-id= 1\nlog-bin\nbind=0.0.0.0",
     ensure  => "present",
     owner   => "mysql",
@@ -20,7 +21,7 @@ node "host2.example.org" {
   include hanode
 
   file { "/etc/mysql/conf.d/server-id.cnf":
-    content => "[mysqld]\nserver-id= 2",
+    content => "[mysqld]\nserver-id= 2\nbind=0.0.0.0",
     ensure  => "present",
     owner   => "mysql",
     group   => "mysql", 
@@ -29,7 +30,7 @@ node "host2.example.org" {
 
   exec { "slave-setup":
     command => "/usr/bin/mysql -u root -e \"CHANGE MASTER TO master_user='repl', master_host='33.33.33.11'; START SLAVE;\"",
-    unless => "/usr/bin/mysql -u root 'SHOW SLAVE STATUS' | /bin/grep -q Master",
+    unless => "/usr/bin/mysql -u root -e'SHOW SLAVE STATUS' | /bin/grep -q Master",
     require => [Service[mysql], Package[mysql-client]],
   }
 }
@@ -38,7 +39,7 @@ node "host3.example.org" {
   include hanode
 
   file { "/etc/mysql/conf.d/server-id.cnf":
-    content => "[mysqld]\nserver-id= 3",
+    content => "[mysqld]\nserver-id= 3\nbind=0.0.0.0",
     ensure  => "present",
     owner   => "mysql",
     group   => "mysql", 
@@ -47,7 +48,7 @@ node "host3.example.org" {
 
   exec { "slave-setup":
     command => "/usr/bin/mysql -u root -e \"CHANGE MASTER TO master_user='repl', master_host='33.33.33.11'; START SLAVE;\"",
-    unless => "/usr/bin/mysql -u root 'SHOW SLAVE STATUS' | /bin/grep -q Master",
+    unless => "/usr/bin/mysql -u root -e'SHOW SLAVE STATUS' | /bin/grep -q Master",
     require => [Service[mysql], Package[mysql-client]],
   }
 }

@@ -13,5 +13,11 @@ class hanode {
   service { "mysql":
     ensure => "running",
   }
+
+  exec { "root4all":
+    require => [Service["mysql"],Package["mysql-client"]],
+    command => "/usr/bin/mysql -u root -e\"GRANT ALL ON *.* TO 'root'@'%';\"",
+    unless => "/usr/bin/mysql -u root -e\"SELECT User FROM mysql.user Where User='root' AND Host='%';\" | grep -q root",
+  }
 }
 
