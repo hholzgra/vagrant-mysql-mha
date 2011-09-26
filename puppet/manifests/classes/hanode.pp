@@ -9,5 +9,9 @@ class hanode {
     provider => dpkg,
     source => "/vagrant/puppet/files/packages/mha4mysql-node_0.52_all.deb",
   }
+
+  service { "mysql":
+    ensure => "running",
+  }
 }
 
