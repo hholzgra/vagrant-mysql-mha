@@ -8,6 +8,12 @@ node "host1.example.org" {
     group   => "mysql", 
     notify  => Service["mysql"],
   }
+
+  exec { "replication-user":
+    command => "/usr/bin/mysql -u root -e \"GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';\"",
+    unless => "/usr/bin/mysql -u root -e\"SELECT User from mysql.user WHERE User='repl';\" | /bin/grep -q repl",
+    require => [Service[mysql], Package[mysql-client]],
+  }  
 }
 
 node "host2.example.org" {
