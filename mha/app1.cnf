@@ -1,0 +1,19 @@
+[server default]
+# mysql user and password
+user=root
+password=
+ssh_user=root
+# working directory on the manager
+manager_workdir=/var/log/masterha/app1
+# working directory on MySQL servers
+remote_workdir=/var/log/masterha/app1
+
+[server1]
+hostname=33.33.33.11
+
+[server2]
+hostname=33.33.33.12
+
+[server3]
+hostname=33.33.33.13
+
