@@ -7,7 +7,7 @@ class hanode {
     require => Package["libdbd-mysql-perl"],
     ensure => present,
     provider => dpkg,
-    source => "/vagrant/packages/mha4mysql-node_0.52_all.deb",
+    source => "/vagrant/puppet/files/packages/mha4mysql-node_0.52_all.deb",
   }
 }
 
