@@ -4,11 +4,18 @@ class hanode {
   }
 
   package { "mha4mysql-node":
-    require => Package["libdbd-mysql-perl"],
+    require => [Package["libdbd-mysql-perl"],Exec["download-node-package"]],
     ensure => present,
     provider => dpkg,
     source => "/vagrant/puppet/files/packages/mha4mysql-node_0.52_all.deb",
   }
+
+  exec { "download-node-package":
+    command => "/vagrant/puppet/files/packages/download-packages.sh",
+    user    => "root",
+    cwd     => "/vagrant/puppet/files/packages",
+    creates => "/vagrant/puppet/files/packages/mha4mysql-node_0.52_all.deb",
+  }  
 
   service { "mysql":
     ensure => "running",
