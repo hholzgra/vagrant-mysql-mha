@@ -21,6 +21,7 @@ node "host2.example.org" {
   include hanode
 
   file { "/etc/mysql/conf.d/server-id.cnf":
+    require => Package["mysql-server"],
     content => "[mysqld]\nserver-id= 2\nbind=0.0.0.0",
     ensure  => "present",
     owner   => "mysql",
@@ -39,6 +40,7 @@ node "host3.example.org" {
   include hanode
 
   file { "/etc/mysql/conf.d/server-id.cnf":
+    require => Package["mysql-server"],
     content => "[mysqld]\nserver-id= 3\nbind=0.0.0.0",
     ensure  => "present",
     owner   => "mysql",
