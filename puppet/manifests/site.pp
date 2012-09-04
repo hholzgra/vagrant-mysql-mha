@@ -5,13 +5,13 @@ import "nodes.pp"
 Exec["apt-get-update"] -> Package <| |>
 exec { "apt-get-update" :
     command => "/usr/bin/apt-get update",
-    require => File["/etc/apt/apt.conf.d/02proxy"],
+#    require => File["/etc/apt/apt.conf.d/02proxy"],
 }
-file { "/etc/apt/apt.conf.d/02proxy":
-    ensure => "file",
-    source => "/vagrant/puppet/files/apt/02proxy",
-    owner  => "root",
-}
+#file { "/etc/apt/apt.conf.d/02proxy":
+#    ensure => "file",
+#    source => "/vagrant/puppet/files/apt/02proxy",
+#    owner  => "root",
+#}
 
 
 file { "/root/.ssh":
